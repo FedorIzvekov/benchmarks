@@ -14,6 +14,7 @@ import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.infra.Blackhole;
 
 @BenchmarkMode(Mode.AverageTime)
 @Fork(jvmArgsAppend = {"-Xms2G", "-Xmx2G"})
@@ -21,86 +22,86 @@ import org.openjdk.jmh.annotations.State;
 public class StringConcatenationInLoop {
 
     @Benchmark
-    public String stringBuilder(Data data) {
+    public void stringBuilder(Data data, Blackhole blackhole) {
         StringBuilder result = new StringBuilder();
         for (String element : data.stringArray) {
             result.append(element);
         }
-        return result.toString();
+        blackhole.consume(result.toString());
     }
 
 
     @Benchmark
-    public String stringBuilderWithCapacity(Data data) {
+    public void stringBuilderWithCapacity(Data data, Blackhole blackhole) {
         StringBuilder result = new StringBuilder(data.stringArray.length);
         for (String element : data.stringArray) {
             result.append(element);
         }
-        return result.toString();
+        blackhole.consume(result.toString());
     }
 
 
     @Benchmark
-    public String stringBuffer(Data data) {
+    public void stringBuffer(Data data, Blackhole blackhole) {
         StringBuffer result = new StringBuffer();
         for (String element : data.stringArray) {
             result.append(element);
         }
-        return result.toString();
+        blackhole.consume(result.toString());
     }
 
 
     @Benchmark
-    public String stringBufferWithCapacity(Data data) {
+    public void stringBufferWithCapacity(Data data, Blackhole blackhole) {
         StringBuffer result = new StringBuffer(data.stringArray.length);
         for (String element : data.stringArray) {
             result.append(element);
         }
-        return result.toString();
+        blackhole.consume(result.toString());
     }
 
 
     @Benchmark
-    public String stringJoiner(Data data) {
+    public void stringJoiner(Data data, Blackhole blackhole) {
         StringJoiner result = new StringJoiner("");
         for (String element : data.stringArray) {
             result.add(element);
         }
-        return result.toString();
+        blackhole.consume(result.toString());
     }
 
 
     @Benchmark
-    public String stringStreamJoining(Data data) {
+    public void stringStreamJoining(Data data, Blackhole blackhole) {
         String result = Arrays.stream(data.stringArray).collect(Collectors.joining());
-        return result;
+        blackhole.consume(result);
     }
 
 
     @Benchmark
-    public String stringFormat(Data data) {
+    public void stringFormat(Data data, Blackhole blackhole) {
         String result = String.format(data.formatArg, data.stringArray);
-        return result;
+        blackhole.consume(result);
     }
 
 
     @Benchmark
-    public String stringConcat(Data data) {
+    public void stringConcat(Data data, Blackhole blackhole) {
         String result = "";
         for (String element : data.stringArray) {
             result = result.concat(element);
         }
-        return result;
+        blackhole.consume(result);
     }
 
 
     @Benchmark
-    public String operatorPlus(Data data) {
+    public void operatorPlus(Data data, Blackhole blackhole) {
         String result = "";
         for (String element : data.stringArray) {
             result = result + element;
         }
-        return result;
+        blackhole.consume(result);
     }
 
 
