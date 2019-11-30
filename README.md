@@ -1,11 +1,11 @@
 # Project benchmarks
 This project features benchmarks.
 
-* Run:
+## Run:
 ```
-cd <projects_directory>/benchmarks
+cd <projects_directory>/benchmarks/<module_name>
 
 mvn clean install
 
-java -jar ./target/benchmarks-1.0.0-SNAPSHOT.jar
+java -jar ./target/<module_name>-1.0.0-SNAPSHOT.jar
 ```

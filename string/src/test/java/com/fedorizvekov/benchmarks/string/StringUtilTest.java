@@ -1,4 +1,4 @@
-package com.fedorizvekov.benchmarks;
+package com.fedorizvekov.benchmarks.string;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

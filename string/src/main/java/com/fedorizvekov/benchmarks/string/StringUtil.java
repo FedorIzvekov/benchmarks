@@ -1,4 +1,4 @@
-package com.fedorizvekov.benchmarks;
+package com.fedorizvekov.benchmarks.string;
 
 import java.util.Random;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package com.fedorizvekov.benchmarks;
+package com.fedorizvekov.benchmarks.string;
 
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
