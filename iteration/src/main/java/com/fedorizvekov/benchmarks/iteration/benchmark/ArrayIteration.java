@@ -44,7 +44,7 @@ public class ArrayIteration {
 
     @Benchmark
     public void while1(Data data, Blackhole blackhole) {
-        int count = 0;
+        var count = 0;
 
         while (count < data.array.length) {
 

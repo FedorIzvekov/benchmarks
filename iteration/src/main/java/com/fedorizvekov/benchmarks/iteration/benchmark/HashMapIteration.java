@@ -3,7 +3,6 @@ package com.fedorizvekov.benchmarks.iteration.benchmark;
 import static com.fedorizvekov.benchmarks.iteration.StringUtil.generate;
 import static com.fedorizvekov.benchmarks.iteration.StringUtil.workingLoad;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -48,7 +47,7 @@ public class HashMapIteration {
 
     @Benchmark
     public void while1(Data data, Blackhole blackhole) {
-        int count = 0;
+        var count = 0;
 
         while (count < data.map.size()) {
 
@@ -63,7 +62,7 @@ public class HashMapIteration {
 
     @Benchmark
     public void whileIterator(Data data, Blackhole blackhole) {
-        Iterator<String> iterator = data.map.values().iterator();
+        var iterator = data.map.values().iterator();
 
         while (iterator.hasNext()) {
 

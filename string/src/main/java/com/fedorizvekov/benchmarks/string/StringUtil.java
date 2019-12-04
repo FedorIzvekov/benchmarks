@@ -18,11 +18,4 @@ public class StringUtil {
                 .collect(Collectors.joining());
     }
 
-
-    public static String repeat(String string, int times) {
-
-        return IntStream.range(0, times).mapToObj(i -> string).collect(Collectors.joining());
-
-    }
-
 }

@@ -2,7 +2,6 @@ package com.fedorizvekov.benchmarks.string;
 
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
-import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
 
@@ -10,7 +9,7 @@ public class StringBenchmark {
 
     public static void main(String[] args) throws RunnerException {
 
-        Options options = new OptionsBuilder()
+        var options = new OptionsBuilder()
                 .include(StringConcatenationInLoop.class.getSimpleName())
                 .warmupIterations(10)
                 .warmupTime(TimeValue.seconds(1))

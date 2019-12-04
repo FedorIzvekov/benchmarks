@@ -3,7 +3,6 @@ package com.fedorizvekov.benchmarks.iteration.benchmark;
 import static com.fedorizvekov.benchmarks.iteration.StringUtil.generate;
 import static com.fedorizvekov.benchmarks.iteration.StringUtil.workingLoad;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -47,7 +46,7 @@ public class LinkedListIteration {
 
     @Benchmark
     public void while1(Data data, Blackhole blackhole) {
-        int count = 0;
+        var count = 0;
 
         while (count < data.linkedList.size()) {
 
@@ -62,7 +61,7 @@ public class LinkedListIteration {
 
     @Benchmark
     public void whileIterator(Data data, Blackhole blackhole) {
-        Iterator<String> iterator = data.linkedList.iterator();
+        var iterator = data.linkedList.iterator();
 
         while (iterator.hasNext()) {
 

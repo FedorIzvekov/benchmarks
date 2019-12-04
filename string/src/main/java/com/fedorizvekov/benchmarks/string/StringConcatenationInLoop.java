@@ -23,7 +23,8 @@ public class StringConcatenationInLoop {
 
     @Benchmark
     public void stringBuilder(Data data, Blackhole blackhole) {
-        StringBuilder result = new StringBuilder();
+        var result = new StringBuilder();
+
         for (String element : data.stringArray) {
             result.append(element);
         }
@@ -33,7 +34,8 @@ public class StringConcatenationInLoop {
 
     @Benchmark
     public void stringBuilderWithCapacity(Data data, Blackhole blackhole) {
-        StringBuilder result = new StringBuilder(data.stringArray.length);
+        var result = new StringBuilder(data.stringArray.length);
+
         for (String element : data.stringArray) {
             result.append(element);
         }
@@ -43,7 +45,8 @@ public class StringConcatenationInLoop {
 
     @Benchmark
     public void stringBuffer(Data data, Blackhole blackhole) {
-        StringBuffer result = new StringBuffer();
+        var result = new StringBuffer();
+
         for (String element : data.stringArray) {
             result.append(element);
         }
@@ -53,7 +56,8 @@ public class StringConcatenationInLoop {
 
     @Benchmark
     public void stringBufferWithCapacity(Data data, Blackhole blackhole) {
-        StringBuffer result = new StringBuffer(data.stringArray.length);
+        var result = new StringBuffer(data.stringArray.length);
+
         for (String element : data.stringArray) {
             result.append(element);
         }
@@ -63,7 +67,8 @@ public class StringConcatenationInLoop {
 
     @Benchmark
     public void stringJoiner(Data data, Blackhole blackhole) {
-        StringJoiner result = new StringJoiner("");
+        var result = new StringJoiner("");
+
         for (String element : data.stringArray) {
             result.add(element);
         }
@@ -73,21 +78,21 @@ public class StringConcatenationInLoop {
 
     @Benchmark
     public void stringStreamJoining(Data data, Blackhole blackhole) {
-        String result = Arrays.stream(data.stringArray).collect(Collectors.joining());
+        var result = Arrays.stream(data.stringArray).collect(Collectors.joining());
         blackhole.consume(result);
     }
 
 
     @Benchmark
     public void stringFormat(Data data, Blackhole blackhole) {
-        String result = String.format(data.formatArg, data.stringArray);
+        var result = String.format(data.formatArg, data.stringArray);
         blackhole.consume(result);
     }
 
 
     @Benchmark
     public void stringConcat(Data data, Blackhole blackhole) {
-        String result = "";
+        var result = "";
         for (String element : data.stringArray) {
             result = result.concat(element);
         }
@@ -97,7 +102,7 @@ public class StringConcatenationInLoop {
 
     @Benchmark
     public void operatorPlus(Data data, Blackhole blackhole) {
-        String result = "";
+        var result = "";
         for (String element : data.stringArray) {
             result = result + element;
         }
@@ -122,7 +127,7 @@ public class StringConcatenationInLoop {
                     .limit(stringCount)
                     .toArray(String[]::new);
 
-            formatArg = StringUtil.repeat("%s", stringCount);
+            formatArg = "%s".repeat(stringCount);
         }
 
     }

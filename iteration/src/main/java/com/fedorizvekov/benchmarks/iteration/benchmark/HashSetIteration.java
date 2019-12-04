@@ -3,7 +3,6 @@ package com.fedorizvekov.benchmarks.iteration.benchmark;
 import static com.fedorizvekov.benchmarks.iteration.StringUtil.generate;
 import static com.fedorizvekov.benchmarks.iteration.StringUtil.workingLoad;
 
-import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -37,7 +36,7 @@ public class HashSetIteration {
 
     @Benchmark
     public void whileIterator(Data data, Blackhole blackhole) {
-        Iterator<String> iterator = data.set.iterator();
+        var iterator = data.set.iterator();
 
         while (iterator.hasNext()) {
 

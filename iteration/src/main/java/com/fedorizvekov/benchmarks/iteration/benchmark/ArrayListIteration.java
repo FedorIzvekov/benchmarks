@@ -4,7 +4,6 @@ import static com.fedorizvekov.benchmarks.iteration.StringUtil.generate;
 import static com.fedorizvekov.benchmarks.iteration.StringUtil.workingLoad;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -47,7 +46,7 @@ public class ArrayListIteration {
 
     @Benchmark
     public void while1(Data data, Blackhole blackhole) {
-        int count = 0;
+        var count = 0;
 
         while (count < data.arrayList.size()) {
 
@@ -62,7 +61,7 @@ public class ArrayListIteration {
 
     @Benchmark
     public void whileIterator(Data data, Blackhole blackhole) {
-        Iterator<String> iterator = data.arrayList.iterator();
+        var iterator = data.arrayList.iterator();
 
         while (iterator.hasNext()) {
 
