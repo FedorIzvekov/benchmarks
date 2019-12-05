@@ -1,6 +1,51 @@
 # String Concatenation Benchmark
 
+[**CPU Intel i7-10510U**](#cpu-intel-i7-10510u)
+
+* [Liberica JDK 11.0.5](#liberica-jdk-1105)
+* [Oracle JDK 1.8.0_231](#oracle-jdk-180231)
+
 ## CPU Intel i7-10510U
+
+### Liberica JDK 11.0.5
+
+#### 👍 Best result: StringBuilder with capacity
+
+#### 🛑 Worst result:
+
+* String.format()
+* concat() for large number of strings
+* Operator plus (+) for large number of strings
+
+| Benchmark                                           | String Count | String Length | Mode | Cnt |           Score           |   Error   | Units |
+|:----------------------------------------------------|:------------:|:-------------:|:----:|:---:|:-------------------------:|:---------:|:-----:|
+| StringConcatenationInLoop.operatorPlus              |      10      |      15       | avgt | 20  |          185.663          |  ± 5.332  | ns/op |
+| StringConcatenationInLoop.operatorPlus              |      50      |      15       | avgt | 20  |   <red> 1973.417 </red>   |  ± 5.875  | ns/op |
+| StringConcatenationInLoop.operatorPlus              |     100      |      15       | avgt | 20  |   <red> 7160.190 </red>   | ± 36.283  | ns/op |
+| StringConcatenationInLoop.stringBuffer              |      10      |      15       | avgt | 20  |          185.858          | ± 17.460  | ns/op |
+| StringConcatenationInLoop.stringBuffer              |      50      |      15       | avgt | 20  |          812.353          |  ± 2.764  | ns/op |
+| StringConcatenationInLoop.stringBuffer              |     100      |      15       | avgt | 20  |         1637.709          |  ± 9.675  | ns/op |
+| StringConcatenationInLoop.stringBufferWithCapacity  |      10      |      15       | avgt | 20  |          150.514          |  ± 1.235  | ns/op |
+| StringConcatenationInLoop.stringBufferWithCapacity  |      50      |      15       | avgt | 20  |          754.906          |  ± 4.423  | ns/op |
+| StringConcatenationInLoop.stringBufferWithCapacity  |     100      |      15       | avgt | 20  |         1547.489          | ± 15.753  | ns/op |
+| StringConcatenationInLoop.stringBuilder             |      10      |      15       | avgt | 20  |          163.658          |  ± 3.736  | ns/op |
+| StringConcatenationInLoop.stringBuilder             |      50      |      15       | avgt | 20  |          641.099          | ± 13.448  | ns/op |
+| StringConcatenationInLoop.stringBuilder             |     100      |      15       | avgt | 20  |         1343.843          | ± 27.650  | ns/op |
+| StringConcatenationInLoop.stringBuilderWithCapacity |      10      |      15       | avgt | 20  | <green> 143.107 </green>  |  ± 3.161  | ns/op |
+| StringConcatenationInLoop.stringBuilderWithCapacity |      50      |      15       | avgt | 20  | <green> 543.589 </green>  | ± 11.756  | ns/op |
+| StringConcatenationInLoop.stringBuilderWithCapacity |     100      |      15       | avgt | 20  | <green> 1056.853 </green> | ± 15.782  | ns/op |
+| StringConcatenationInLoop.stringConcat              |      10      |      15       | avgt | 20  |          200.151          |  ± 7.227  | ns/op |
+| StringConcatenationInLoop.stringConcat              |      50      |      15       | avgt | 20  |   <red> 1999.272 </red>   | ± 24.456  | ns/op |
+| StringConcatenationInLoop.stringConcat              |     100      |      15       | avgt | 20  |  <red> 7249.557 </span>   | ± 49.220  | ns/op |
+| StringConcatenationInLoop.stringFormat              |      10      |      15       | avgt | 20  |   <red> 1815.746 </red>   | ± 18.201  | ns/op |
+| StringConcatenationInLoop.stringFormat              |      50      |      15       | avgt | 20  |   <red> 8391.629 </red>   | ± 104.358 | ns/op |
+| StringConcatenationInLoop.stringFormat              |     100      |      15       | avgt | 20  |  <red> 17427.287 </red>   | ± 433.179 | ns/op |
+| StringConcatenationInLoop.stringJoiner              |      10      |      15       | avgt | 20  |          196.539          |  ± 3.488  | ns/op |
+| StringConcatenationInLoop.stringJoiner              |      50      |      15       | avgt | 20  |          859.977          | ± 24.205  | ns/op |
+| StringConcatenationInLoop.stringJoiner              |     100      |      15       | avgt | 20  |         1844.472          | ± 47.300  | ns/op |
+| StringConcatenationInLoop.stringStreamJoining       |      10      |      15       | avgt | 20  |          213.994          |  ± 1.865  | ns/op |
+| StringConcatenationInLoop.stringStreamJoining       |      50      |      15       | avgt | 20  |          725.296          | ± 14.702  | ns/op |
+| StringConcatenationInLoop.stringStreamJoining       |     100      |      15       | avgt | 20  |         1479.620          | ± 17.037  | ns/op |
 
 ### Oracle JDK 1.8.0.231
 
