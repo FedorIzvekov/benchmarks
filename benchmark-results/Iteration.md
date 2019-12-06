@@ -2,6 +2,14 @@
 
 ## CPU Intel i7-10510U
 
+[Liberica JDK 11.0.5](#liberica-jdk-1105)
+
+* [Array Iteration](#array-iteration-jdk-11)
+* [ArrayList Iteration](#arraylist-iteration-jdk-11)
+* [LinkedList Iteration](#linkedlist-iteration-jdk-11)
+* [HashMap Iteration](#hashmap-iteration-jdk-11)
+* [HashSet Iteration](#hashset-iteration-jdk-11)
+
 [Oracle JDK 1.8.0_231](#oracle-jdk-180231)
 
 * [Array Iteration](#array-iteration-jdk-18)
@@ -9,6 +17,146 @@
 * [LinkedList Iteration](#linkedlist-iteration-jdk-18)
 * [HashMap Iteration](#hashmap-iteration-jdk-18)
 * [HashSet Iteration](#hashset-iteration-jdk-18)
+
+### Liberica JDK 11.0.5
+
+### Array Iteration JDK 11
+
+#### 👍 Best result: 
+* **Stream**
+* **For-Each**
+
+#### 🛑 Worst result: Parallel Stream
+
+| Benchmark                     | Capacity | String Length | Mode | Cnt |           Score           |   Error    | Units |
+|:------------------------------|:--------:|:-------------:|:----:|:---:|:-------------------------:|:----------:|:-----:|
+| ArrayIteration.for1           |    10    |      15       | avgt | 20  |          57.751           |  ± 0.731   | ns/op |
+| ArrayIteration.for1           |   100    |      15       | avgt | 20  |          579.586          |  ± 4.880   | ns/op |
+| ArrayIteration.for1           |   1000   |      15       | avgt | 20  |         5801.407          | ± 121.491  | ns/op |
+| ArrayIteration.forEach        |    10    |      15       | avgt | 20  |  <green> 56.270 </green>  |  ± 0.780   | ns/op |
+| ArrayIteration.forEach        |   100    |      15       | avgt | 20  |          553.480          |  ± 7.493   | ns/op |
+| ArrayIteration.forEach        |   1000   |      15       | avgt | 20  |         5028.306          |  ± 58.160  | ns/op |
+| ArrayIteration.parallelStream |    10    |      15       | avgt | 20  |   <red> 9990.888 </red>   | ± 939.357  | ns/op |
+| ArrayIteration.parallelStream |   100    |      15       | avgt | 20  |  <red> 14242.178 </red>   | ± 751.749  | ns/op |
+| ArrayIteration.parallelStream |   1000   |      15       | avgt | 20  |  <red> 24662.142 </red>   | ± 1034.395 | ns/op |
+| ArrayIteration.stream         |    10    |      15       | avgt | 20  |          62.535           |  ± 0.672   | ns/op |
+| ArrayIteration.stream         |   100    |      15       | avgt | 20  | <green> 507.517 </green>  |  ± 5.377   | ns/op |
+| ArrayIteration.stream         |   1000   |      15       | avgt | 20  | <green> 4603.617 </green> |  ± 71.129  | ns/op |
+| ArrayIteration.while1         |    10    |      15       | avgt | 20  |          65.403           |  ± 0.746   | ns/op |
+| ArrayIteration.while1         |   100    |      15       | avgt | 20  |          633.659          |  ± 6.514   | ns/op |
+| ArrayIteration.while1         |   1000   |      15       | avgt | 20  |         5280.361          |  ± 80.392  | ns/op |
+
+### ArrayList Iteration JDK 11
+
+#### 👍 Best result:
+* **while()**
+* **Stream**
+* **For-Each**
+
+#### 🛑 Worst result: Parallel Stream
+
+| Benchmark                         | Capacity | String Length | Mode | Cnt |           Score           |   Error    | Units |
+|:----------------------------------|:--------:|:-------------:|:----:|:---:|:-------------------------:|:----------:|:-----:|
+| ArrayListIteration.for1           |    10    |      15       | avgt | 20  |          70.000           |  ± 0.838   | ns/op |
+| ArrayListIteration.for1           |   100    |      15       | avgt | 20  |          708.656          |  ± 9.296   | ns/op |
+| ArrayListIteration.for1           |   1000   |      15       | avgt | 20  |         6934.258          |  ± 65.644  | ns/op |
+| ArrayListIteration.forEach        |    10    |      15       | avgt | 20  |          60.390           |  ± 0.705   | ns/op |
+| ArrayListIteration.forEach        |   100    |      15       | avgt | 20  |          592.748          |  ± 15.818  | ns/op |
+| ArrayListIteration.forEach        |   1000   |      15       | avgt | 20  |         6245.217          | ± 100.867  | ns/op |
+| ArrayListIteration.parallelStream |    10    |      15       | avgt | 20  |   <red> 9988.989 </red>   | ± 956.308  | ns/op |
+| ArrayListIteration.parallelStream |   100    |      15       | avgt | 20  |  <red> 14215.759 </red>   | ± 622.447  | ns/op |
+| ArrayListIteration.parallelStream |   1000   |      15       | avgt | 20  |  <red> 24210.603 </red>   | ± 1076.792 | ns/op |
+| ArrayListIteration.stream         |    10    |      15       | avgt | 20  |          61.064           |  ± 1.637   | ns/op |
+| ArrayListIteration.stream         |   100    |      15       | avgt | 20  |          532.421          |  ± 12.380  | ns/op |
+| ArrayListIteration.stream         |   1000   |      15       | avgt | 20  |         6054.121          |  ± 89.996  | ns/op |
+| ArrayListIteration.while1         |    10    |      15       | avgt | 20  |  <green> 55.630 </green>  |  ± 1.194   | ns/op |
+| ArrayListIteration.while1         |   100    |      15       | avgt | 20  | <green> 513.783 </green>  |  ± 7.767   | ns/op |
+| ArrayListIteration.while1         |   1000   |      15       | avgt | 20  | <green> 5551.269 </green> |  ± 91.282  | ns/op |
+| ArrayListIteration.whileIterator  |    10    |      15       | avgt | 20  |          66.166           |  ± 0.776   | ns/op |
+| ArrayListIteration.whileIterator  |   100    |      15       | avgt | 20  |          710.616          |  ± 7.946   | ns/op |
+| ArrayListIteration.whileIterator  |   1000   |      15       | avgt | 20  |         6958.425          |  ± 88.754  | ns/op |
+
+### LinkedList Iteration JDK 11
+
+#### 👍 Best result:
+* **Stream**
+* **For-Each**
+
+#### 🛑 Worst result: 
+* **Parallel Stream**
+* **for() for large LinkedList**
+* **while() for large LinkedList**
+
+| Benchmark                          | Capacity | String Length | Mode | Cnt |           Score           |   Error    | Units |
+|:-----------------------------------|:--------:|:-------------:|:----:|:---:|:-------------------------:|:----------:|:-----:|
+| LinkedListIteration.for1           |    10    |      15       | avgt | 20  |          70.294           |  ± 3.705   | ns/op |
+| LinkedListIteration.for1           |   100    |      15       | avgt | 20  |   <red> 1965.593 </red>   |  ± 61.267  | ns/op |
+| LinkedListIteration.for1           |   1000   |      15       | avgt | 20  |  <red> 231836.316 </red>  | ± 1049.019 | ns/op |
+| LinkedListIteration.forEach        |    10    |      15       | avgt | 20  |  <green> 56.489 </green>  |  ± 3.578   | ns/op |
+| LinkedListIteration.forEach        |   100    |      15       | avgt | 20  | <green> 548.610 </green>  |  ± 29.359  | ns/op |
+| LinkedListIteration.forEach        |   1000   |      15       | avgt | 20  |         6000.391          |  ± 51.621  | ns/op |
+| LinkedListIteration.parallelStream |    10    |      15       | avgt | 20  |  <red> 11210.383 </red>   | ± 1169.921 | ns/op |
+| LinkedListIteration.parallelStream |   100    |      15       | avgt | 20  |  <red> 13573.413 </red>   | ± 1407.634 | ns/op |
+| LinkedListIteration.parallelStream |   1000   |      15       | avgt | 20  |   <red> 27526.746 <red>   | ± 2691.355 | ns/op |
+| LinkedListIteration.stream         |    10    |      15       | avgt | 20  |          64.577           |  ± 6.203   | ns/op |
+| LinkedListIteration.stream         |   100    |      15       | avgt | 20  |          551.397          |  ± 5.548   | ns/op |
+| LinkedListIteration.stream         |   1000   |      15       | avgt | 20  | <green> 5990.053 </green> | ± 200.587  | ns/op |
+| LinkedListIteration.while1         |    10    |      15       | avgt | 20  |          83.721           |  ± 2.381   | ns/op |
+| LinkedListIteration.while1         |   100    |      15       | avgt | 20  |   <red> 1877.147 </red>   |  ± 23.314  | ns/op |
+| LinkedListIteration.while1         |   1000   |      15       | avgt | 20  |  <red> 232290.331 </red>  | ± 911.593  | ns/op |
+| LinkedListIteration.whileIterator  |    10    |      15       | avgt | 20  |          90.890           |  ± 5.861   | ns/op |
+| LinkedListIteration.whileIterator  |   100    |      15       | avgt | 20  |          872.256          |  ± 13.078  | ns/op |
+| LinkedListIteration.whileIterator  |   1000   |      15       | avgt | 20  |         8420.395          | ± 123.361  | ns/op |
+
+### HashMap Iteration JDK 11
+
+#### 👍 Best result: For-Each
+
+#### 🛑 Worst result:
+* **Parallel Stream**
+* **while() with Iterator for large HashMap**
+
+| Benchmark                       | Capacity | String Length | Mode | Cnt |           Score           |   Error    | Units |
+|:--------------------------------|:--------:|:-------------:|:----:|:---:|:-------------------------:|:----------:|:-----:|
+| HashMapIteration.for1           |    10    |      15       | avgt | 20  |          77.768           |  ± 3.894   | ns/op |
+| HashMapIteration.for1           |   100    |      15       | avgt | 20  |          882.011          |  ± 20.649  | ns/op |
+| HashMapIteration.for1           |   1000   |      15       | avgt | 20  |         9982.192          | ± 683.371  | ns/op |
+| HashMapIteration.forEach        |    10    |      15       | avgt | 20  |  <green> 77.887 </green>  |  ± 1.006   | ns/op |
+| HashMapIteration.forEach        |   100    |      15       | avgt | 20  | <green> 795.503 </green>  |  ± 13.209  | ns/op |
+| HashMapIteration.forEach        |   1000   |      15       | avgt | 20  | <green> 7781.086 </green> | ± 703.089  | ns/op |
+| HashMapIteration.parallelStream |    10    |      15       | avgt | 20  |   <red> 8480.055 </red>   | ± 826.365  | ns/op |
+| HashMapIteration.parallelStream |   100    |      15       | avgt | 20  |  <red> 13533.003 </red>   | ± 1368.626 | ns/op |
+| HashMapIteration.parallelStream |   1000   |      15       | avgt | 20  |  <red> 28267.920 </red>   | ± 3097.146 | ns/op |
+| HashMapIteration.stream         |    10    |      15       | avgt | 20  |          102.401          |  ± 2.709   | ns/op |
+| HashMapIteration.stream         |   100    |      15       | avgt | 20  |         1229.719          |  ± 14.898  | ns/op |
+| HashMapIteration.stream         |   1000   |      15       | avgt | 20  |         8913.807          | ± 142.410  | ns/op |
+| HashMapIteration.while1         |    10    |      15       | avgt | 20  |          79.790           |  ± 5.985   | ns/op |
+| HashMapIteration.while1         |   100    |      15       | avgt | 20  |          802.248          |  ± 11.109  | ns/op |
+| HashMapIteration.while1         |   1000   |      15       | avgt | 20  |         9229.163          |  ± 91.935  | ns/op |
+| HashMapIteration.whileIterator  |    10    |      15       | avgt | 20  |          130.991          |  ± 2.052   | ns/op |
+| HashMapIteration.whileIterator  |   100    |      15       | avgt | 20  |   <red> 1463.483 </red>   |  ± 19.734  | ns/op |
+| HashMapIteration.whileIterator  |   1000   |      15       | avgt | 20  |  <red> 12727.065 </red>   | ± 189.822  | ns/op |
+
+### HashSet Iteration JDK 11
+
+#### 👍 Best result: For-Each
+
+#### 🛑 Worst result: Parallel Stream
+
+| Benchmark                       | Capacity | String Length | Mode | Cnt |           Score            |   Error    | Units |
+|:--------------------------------|:--------:|:-------------:|:----:|:---:|:--------------------------:|:----------:|:-----:|
+| HashSetIteration.forEach        |    10    |      15       | avgt | 20  |  <green> 80.128 </green>   |  ± 1.767   | ns/op |
+| HashSetIteration.forEach        |   100    |      15       | avgt | 20  |  <green> 743.816 </green>  |  ± 10.185  | ns/op |
+| HashSetIteration.forEach        |   1000   |      15       | avgt | 20  | <green> 15981.403 </green> | ± 281.451  | ns/op |
+| HashSetIteration.parallelStream |    10    |      15       | avgt | 20  |   <red> 8443.209 </red>    | ± 836.119  | ns/op |
+| HashSetIteration.parallelStream |   100    |      15       | avgt | 20  |   <red> 13407.520 </red>   | ± 1470.746 | ns/op |
+| HashSetIteration.parallelStream |   1000   |      15       | avgt | 20  |   <red> 27777.871 </red>   | ± 3168.913 | ns/op |
+| HashSetIteration.stream         |    10    |      15       | avgt | 20  |          102.879           |  ± 4.971   | ns/op |
+| HashSetIteration.stream         |   100    |      15       | avgt | 20  |          1095.776          |  ± 22.307  | ns/op |
+| HashSetIteration.stream         |   1000   |      15       | avgt | 20  |         16047.582          | ± 211.221  | ns/op |
+| HashSetIteration.whileIterator  |    10    |      15       | avgt | 20  |          131.938           |  ± 8.184   | ns/op |
+| HashSetIteration.whileIterator  |   100    |      15       | avgt | 20  |          1324.457          | ± 136.126  | ns/op |
+| HashSetIteration.whileIterator  |   1000   |      15       | avgt | 20  |         16408.484          | ± 115.922  | ns/op |
 
 ### Oracle JDK 1.8.0.231
 
@@ -36,7 +184,7 @@
 
 ### ArrayList Iteration JDK 1.8
 
-#### 👍 Best result: Stream for ArrayList
+#### 👍 Best result: Stream
 
 #### 🛑 Worst result: Parallel Stream
 
@@ -63,13 +211,13 @@
 
 ### LinkedList Iteration JDK 1.8
 
-#### 👍 Best result: Stream for LinkedList
+#### 👍 Best result: Stream
 
 #### 🛑 Worst result:
 
-* Parallel Stream
-* for() for large LinkedList
-* while() for large LinkedList
+* **Parallel Stream**
+* **for() for large LinkedList**
+* **while() for large LinkedList**
 
 | Benchmark                          | Capacity | String Length | Mode | Cnt |           Score           |    Error    | Units |
 |:-----------------------------------|:--------:|:-------------:|:----:|:---:|:-------------------------:|:-----------:|:-----:|
@@ -119,12 +267,12 @@
 
 ### HashSet Iteration JDK 1.8
 
-#### 👍 Best result: ForEach for HashSet
+#### 👍 Best result: For-Each
 
 #### 🛑 Worst result:
 
-* Parallel Stream
-* Stream for large HashSet
+* **Parallel Stream**
+* **Stream for large HashSet**
 
 | Benchmark                       | Capacity | String Length | Mode | Cnt |           Score           |   Error    | Units |
 |:--------------------------------|:--------:|:-------------:|:----:|:---:|:-------------------------:|:----------:|:-----:|
