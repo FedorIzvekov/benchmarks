@@ -12,6 +12,7 @@
 
     <modules>
         <module>iteration</module>
+        <module>log4j2</module>
         <module>string</module>
     </modules>
 
@@ -21,6 +22,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <jmh.version>1.22</jmh.version>
+        <log4j.version>2.12.1</log4j.version>
         <junit.jupiter.version>5.5.2</junit.jupiter.version>
         <mockito.jupiter.version>3.2.0</mockito.jupiter.version>
         <assertj-core.version>3.14.0</assertj-core.version>
@@ -40,6 +42,21 @@
                 <artifactId>jmh-generator-annprocess</artifactId>
                 <version>${jmh.version}</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
