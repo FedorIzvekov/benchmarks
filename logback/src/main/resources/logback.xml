@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="SYSTEM_OUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%magenta(%d) [%cyan(%t)] %highlight(%-5level) %yellow(%C{1.}) - %msg%n%throwable</pattern>
+        </layout>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="SYSTEM_OUT"/>
+    </root>
+
+</configuration>
