@@ -11,6 +11,7 @@ public class StringBenchmark {
 
         var options = new OptionsBuilder()
                 .include(StringConcatenationInLoop.class.getSimpleName())
+                .include(StringConcatenation.class.getSimpleName())
                 .warmupIterations(10)
                 .warmupTime(TimeValue.seconds(1))
                 .measurementIterations(10)

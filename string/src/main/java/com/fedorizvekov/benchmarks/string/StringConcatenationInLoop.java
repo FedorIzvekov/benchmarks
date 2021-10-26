@@ -91,6 +91,13 @@ public class StringConcatenationInLoop {
 
 
     @Benchmark
+    public void stringFormatted(Data data, Blackhole blackhole) {
+        var result = data.formatArg.formatted(data.stringArray);
+        blackhole.consume(result);
+    }
+
+
+    @Benchmark
     public void stringConcat(Data data, Blackhole blackhole) {
         var result = "";
         for (String element : data.stringArray) {
