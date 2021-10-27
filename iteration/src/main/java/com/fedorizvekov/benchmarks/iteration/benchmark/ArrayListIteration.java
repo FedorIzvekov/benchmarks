@@ -16,6 +16,7 @@ import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.infra.Blackhole;
 
 @BenchmarkMode(Mode.AverageTime)
@@ -80,6 +81,7 @@ public class ArrayListIteration {
 
 
     @Benchmark
+    @Threads(2)
     public void parallelStream(Data data, Blackhole blackhole) {
         data.arrayList.parallelStream().forEach(element -> workingLoad(element, blackhole));
     }
@@ -90,7 +92,7 @@ public class ArrayListIteration {
 
         @Param({"15"})
         int stringLength;
-        @Param({"10", "100", "1000"})
+        @Param({"10", "100", "1000", "10000"})
         int capacity;
 
         ArrayList<String> arrayList;
