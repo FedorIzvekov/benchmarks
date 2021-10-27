@@ -2,10 +2,65 @@
 
 [**CPU Intel i7-10510U**](#cpu-intel-i7-10510u)
 
+* [Liberica JDK 17.0.1](#liberica-jdk-1701)
 * [Liberica JDK 11.0.5](#liberica-jdk-1105)
 * [Oracle JDK 1.8.0_231](#oracle-jdk-180231)
 
 ## CPU Intel i7-10510U
+
+### Liberica JDK 17.0.1
+
+#### 👍 Best result:
+
+* **Operator plus (+) without loop**
+* **StringBuilder with capacity**
+* **StringBuffer with capacity**
+
+#### 🛑 Worst result:
+
+* **String.format()**
+* **formatted()**
+* **concat() for large number of strings**
+* **Operator plus (+) in loop for large number of strings**
+
+| Benchmark                                           | String Count | String Length | Mode | Cnt |           Score           |   Error   | Units |
+|:----------------------------------------------------|:------------:|:-------------:|:----:|:---:|:-------------------------:|:---------:|:-----:|
+| StringConcatenation.operatorPlus10                  |     N/A      |      15       | avgt | 20  |  <green> 68.588 </green>  |  ± 0.851  | ns/op |
+| StringConcatenation.operatorPlus50                  |     N/A      |      15       | avgt | 20  | <green> 367.404 </green>  |  ± 5.337  | ns/op |
+| StringConcatenation.operatorPlus100                 |     N/A      |      15       | avgt | 20  | <green> 772.811 </green>  | ± 12.888  | ns/op |
+| StringConcatenation.operatorPlusWithoutJit10        |     N/A      |      15       | avgt | 20  |          338.878          |  ± 4.610  | ns/op |
+| StringConcatenation.operatorPlusWithoutJit50        |     N/A      |      15       | avgt | 20  |         1593.979          | ± 23.772  | ns/op |
+| StringConcatenation.operatorPlusWithoutJit100       |     N/A      |      15       | avgt | 20  |         3886.157          | ± 283.342 | ns/op |
+| StringConcatenationInLoop.operatorPlus              |      10      |      15       | avgt | 20  |          172.108          |  ± 1.445  | ns/op |
+| StringConcatenationInLoop.operatorPlus              |      50      |      15       | avgt | 20  |   <red> 1914.682 </red>   | ± 15.182  | ns/op |
+| StringConcatenationInLoop.operatorPlus              |     100      |      15       | avgt | 20  |   <red> 6962.105 </red>   | ± 17.748  | ns/op |
+| StringConcatenationInLoop.stringBuffer              |      10      |      15       | avgt | 20  | <green> 141.266 </green>  |  ± 2.980  | ns/op |
+| StringConcatenationInLoop.stringBuffer              |      50      |      15       | avgt | 20  |          539.472          |  ± 5.511  | ns/op |
+| StringConcatenationInLoop.stringBuffer              |     100      |      15       | avgt | 20  |         1135.076          |  ± 7.211  | ns/op |
+| StringConcatenationInLoop.stringBufferWithCapacity  |      10      |      15       | avgt | 20  | <green> 130.360 </green>  |  ± 1.043  | ns/op |
+| StringConcatenationInLoop.stringBufferWithCapacity  |      50      |      15       | avgt | 20  | <green> 477.530 </green>  |  ± 5.061  | ns/op |
+| StringConcatenationInLoop.stringBufferWithCapacity  |     100      |      15       | avgt | 20  | <green> 988.916 </green>  |  ± 5.948  | ns/op |
+| StringConcatenationInLoop.stringBuilder             |      10      |      15       | avgt | 20  | <green> 133.225 </green>  |  ± 1.195  | ns/op |
+| StringConcatenationInLoop.stringBuilder             |      50      |      15       | avgt | 20  | <green> 522.131 </green>  |  ± 4.104  | ns/op |
+| StringConcatenationInLoop.stringBuilder             |     100      |      15       | avgt | 20  |         1125.221          |  ± 7.063  | ns/op |
+| StringConcatenationInLoop.stringBuilderWithCapacity |      10      |      15       | avgt | 20  | <green> 139.482 </green>  |  ± 1.367  | ns/op |
+| StringConcatenationInLoop.stringBuilderWithCapacity |      50      |      15       | avgt | 20  | <green> 520.988 </green>  |  ± 5.587  | ns/op |
+| StringConcatenationInLoop.stringBuilderWithCapacity |     100      |      15       | avgt | 20  | <green> 1083.015 </green> |  ± 7.265  | ns/op |
+| StringConcatenationInLoop.stringConcat              |      10      |      15       | avgt | 20  |          167.871          |  ± 1.371  | ns/op |
+| StringConcatenationInLoop.stringConcat              |      50      |      15       | avgt | 20  |   <red> 1894.719 </red>   |  ± 6.335  | ns/op |
+| StringConcatenationInLoop.stringConcat              |     100      |      15       | avgt | 20  |   <red> 6919.172 </red>   | ± 24.097  | ns/op |
+| StringConcatenationInLoop.stringFormat              |      10      |      15       | avgt | 20  |   <red> 489.979 </red>    |  ± 4.136  | ns/op |
+| StringConcatenationInLoop.stringFormat              |      50      |      15       | avgt | 20  |   <red> 2320.635 </red>   | ± 26.187  | ns/op |
+| StringConcatenationInLoop.stringFormat              |     100      |      15       | avgt | 20  |   <red> 4710.067 </red>   | ± 68.965  | ns/op |
+| StringConcatenationInLoop.stringFormatted           |      10      |      15       | avgt | 20  |   <red> 495.102 </red>    |  ± 4.341  | ns/op |
+| StringConcatenationInLoop.stringFormatted           |      50      |      15       | avgt | 20  |   <red> 2254.963 </red>   | ± 32.392  | ns/op |
+| StringConcatenationInLoop.stringFormatted           |     100      |      15       | avgt | 20  |   <red> 4539.605 </red>   | ± 31.862  | ns/op |
+| StringConcatenationInLoop.stringJoiner              |      10      |      15       | avgt | 20  |  <green> 134.142 </red>   |  ± 1.365  | ns/op |
+| StringConcatenationInLoop.stringJoiner              |      50      |      15       | avgt | 20  |          616.751          |  ± 6.608  | ns/op |
+| StringConcatenationInLoop.stringJoiner              |     100      |      15       | avgt | 20  |         1153.577          | ± 13.992  | ns/op |
+| StringConcatenationInLoop.stringStreamJoining       |      10      |      15       | avgt | 20  |          181.475          |  ± 1.903  | ns/op |
+| StringConcatenationInLoop.stringStreamJoining       |      50      |      15       | avgt | 20  |          664.516          |  ± 7.062  | ns/op |
+| StringConcatenationInLoop.stringStreamJoining       |     100      |      15       | avgt | 20  |         1340.216          | ± 10.494  | ns/op |
 
 ### Liberica JDK 11.0.5
 
