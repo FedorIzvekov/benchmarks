@@ -18,19 +18,19 @@
     </modules>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
-        <jmh.version>1.33</jmh.version>
-        <logback.version>1.2.6</logback.version>
-        <slf4j.version>1.7.32</slf4j.version>
-        <log4j.version>2.14.1</log4j.version>
-        <junit.jupiter.version>5.8.1</junit.jupiter.version>
-        <mockito.jupiter.version>4.0.0</mockito.jupiter.version>
-        <assertj-core.version>3.21.0</assertj-core.version>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
+        <jmh.version>1.37</jmh.version>
+        <logback.version>1.4.14</logback.version>
+        <slf4j.version>2.0.11</slf4j.version>
+        <log4j.version>2.23.1</log4j.version>
+        <junit.jupiter.version>5.10.1</junit.jupiter.version>
+        <mockito.jupiter.version>5.10.0</mockito.jupiter.version>
+        <assertj-core.version>3.25.2</assertj-core.version>
+        <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
+        <maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
     </properties>
 
     <dependencyManagement>
