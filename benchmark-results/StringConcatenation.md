@@ -2,12 +2,60 @@
 
 [**CPU Intel i7-10510U**](#cpu-intel-i7-10510u)
 
+* [Overall Result](#overall-result)
 * [Liberica JDK 21.0.1](#liberica-jdk-2101)
 * [Liberica JDK 17.0.1](#liberica-jdk-1701)
 * [Liberica JDK 11.0.5](#liberica-jdk-1105)
 * [Oracle JDK 1.8.0_231](#oracle-jdk-180231)
 
 ## CPU Intel i7-10510U
+
+### Overall Result
+
+| Concatenation of 10 strings ≈ ns/op | Oracle 1.8.0.231 | Liberica 11.0.5 | Liberica 17.0.1 | Liberica 21.0.1 |
+|:------------------------------------|:----------------:|:---------------:|:---------------:|:---------------:|
+| operator plus (+)                   |        -         |        -        |     68.588      |     70.970      |
+| StringBuffer with capacity          |     181.563      |     150.514     |     130.360     |     121.177     |
+| StringBuffer                        |     189.343      |     185.858     |     141.266     |     127.247     |
+| StringBuilder                       |     187.278      |     163.658     |     133.225     |     127.427     |
+| StringBuilder with capacity         |     180.787      |     143.107     |     139.482     |     131.044     |
+| StringJoiner                        |     251.704      |     196.539     |     134.142     |     134.142     |
+| concat()                            |     269.143      |     200.151     |     167.871     |     165.824     |
+| operator plus (+) in loop           |     182.233      |     185.663     |     172.108     |     172.108     |
+| Collectors.joining()                |     228.774      |     213.994     |     181.475     |     181.475     |
+| ⚠️ operator plus (+) without JIT    |        -         |        -        |     338.878     |     363.994     |
+| 🛑 String.format()                  |     1885.068     |    1815.746     |     489.979     |     472.964     |
+| 🛑 formatted()                      |        -         |        -        |     495.102     |     474.736     |
+
+| Concatenation of 50 strings ≈ ns/op | Oracle 1.8.0.231 | Liberica 11.0.5 | Liberica 17.0.1 | Liberica 21.0.1 |
+|:------------------------------------|:----------------:|:---------------:|:---------------:|:---------------:|
+| operator plus (+)                   |        -         |        -        |     367.404     |     383.229     |
+| StringBuffer with capacity          |     729.640      |     754.906     |     477.530     |     440.987     |
+| StringBuilder with capacity         |     660.922      |     543.589     |     520.988     |     492.654     |
+| StringBuilder                       |     866.785      |     641.099     |     522.131     |     494.198     |
+| StringBuffer                        |     832.305      |     812.353     |     539.472     |     494.230     |
+| StringJoiner                        |     1067.526     |     859.977     |     616.751     |     616.751     |
+| Collectors.joining()                |     939.556      |     725.296     |     664.516     |     664.516     |
+| ⚠️ operator plus (+) without JIT    |        -         |        -        |    1593.979     |    1592.714     |
+| 🛑 concat()                         |     3429.182     |    1999.272     |    1894.719     |    1875.446     |
+| 🛑 operator plus (+) in loop        |     3492.748     |    1973.417     |    1914.682     |    1914.682     |
+| 🛑 formatted()                      |        -         |        -        |    2254.963     |    2244.102     |
+| 🛑 String.format()                  |     8797.748     |    8391.629     |    2320.635     |    2265.542     |
+
+| Concatenation of 100 strings ≈ ns/op | Oracle 1.8.0.231 | Liberica 11.0.5 | Liberica 17.0.1 | Liberica 21.0.1 |
+|:-------------------------------------|:----------------:|:---------------:|:---------------:|:---------------:|
+| operator plus (+)                    |        -         |        -        |     772.811     |     795.888     |
+| StringBuffer with capacity           |     1460.727     |    1547.489     |     988.916     |     904.711     |
+| StringBuilder with capacity          |     1390.390     |    1056.853     |    1083.015     |    1013.422     |
+| StringBuilder                        |     1689.620     |    1343.843     |    1125.221     |    1066.160     |
+| StringBuffer                         |     1646.365     |    1637.709     |    1135.076     |    1104.102     |
+| StringJoiner                         |     2053.996     |    1844.472     |    1153.577     |    1153.577     |
+| Collectors.joining()                 |     1793.970     |    1479.620     |    1340.216     |    1340.216     |
+| ⚠️ operator plus (+) without JIT     |        -         |        -        |    3886.157     |    3139.281     |
+| 🛑 String.format()                   |    17401.705     |    17427.287    |    4710.067     |    4465.917     |
+| 🛑 formatted()                       |        -         |        -        |    4539.605     |    4518.939     |
+| 🛑 concat()                          |    12953.096     |    7249.557     |    6919.172     |    6886.231     |
+| 🛑 operator plus (+) in loop         |    13234.876     |    7160.190     |    6962.105     |    6962.105     |
 
 ### Liberica JDK 21.0.1
 
