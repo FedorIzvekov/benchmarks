@@ -2,6 +2,8 @@
 
 ## CPU Intel i7-10510U
 
+[Overall Result](#overall-result)
+
 [Liberica JDK 21.0.1](#liberica-jdk-2101)
 
 * [Array Iteration](#array-iteration-21)
@@ -33,6 +35,128 @@
 * [LinkedList Iteration](#linkedlist-iteration-jdk-18)
 * [HashMap Iteration](#hashmap-iteration-jdk-18)
 * [HashSet Iteration](#hashset-iteration-jdk-18)
+
+### Overall Result
+
+| Iteration through a loop of size 10 ≈ ns/op | Oracle JDK 1.8.0.231 | Liberica JDK 11.0.5 | Liberica JDK 17.0.1 | Liberica JDK 21.0.1 |
+|:--------------------------------------------|:--------------------:|:-------------------:|:-------------------:|:-------------------:|
+| 🏆 Array for-each                           |        51.707        |       56.270        |       48.678        |       20.376        |
+| Array for                                   |        53.539        |       57.751        |       53.057        |       25.863        |
+| ArrayList while                             |        50.099        |       55.630        |       55.545        |       26.268        |
+| 🏆 ArrayList for-each                       |        61.195        |       60.390        |       61.024        |       26.437        |
+| ArrayList for                               |        56.399        |       70.000        |       62.981        |       26.843        |
+| 🏆 LinkedList for-each                      |        57.556        |       56.489        |       56.947        |       27.682        |
+| Array while                                 |        52.410        |       65.403        |       54.195        |       33.126        |
+| ArrayList stream                            |        54.109        |       61.064        |       56.758        |       36.259        |
+| Array stream                                |        54.770        |       62.535        |       64.436        |       41.150        |
+| ArrayList while iterator                    |        61.682        |       66.166        |       69.144        |       42.543        |
+| LinkedList stream                           |        54.231        |       64.577        |       57.478        |       45.249        |
+| 🏆 HashMap for-each                         |        67.424        |       77.887        |       101.649       |       48.948        |
+| LinkedList while                            |        63.152        |       83.721        |       75.866        |       49.540        |
+| LinkedList for                              |        63.637        |       70.294        |       79.736        |       51.011        |
+| HashMap while                               |        77.086        |       79.790        |       81.737        |       51.760        |
+| 🏆 HashSet for-each                         |        69.946        |       80.128        |       105.600       |       56.015        |
+| HashMap for                                 |        76.279        |       77.768        |       79.853        |       58.274        |
+| HashSet stream                              |        90.881        |       102.879       |       89.799        |       58.495        |
+| HashMap stream                              |        87.030        |       102.401       |       87.703        |       61.893        |
+| LinkedList while iterator                   |        60.864        |       90.890        |       87.072        |       62.359        |
+| HashSet while iterator                      |        84.882        |       131.938       |       121.195       |       90.867        |
+| HashMap while iterator                      |        80.839        |       130.991       |       112.240       |       94.602        |
+| 🛑 HashMap parallel stream                  |       5251.079       |      8480.055       |      5299.490       |      1821.548       |
+| 🛑 HashSet parallel stream                  |       4903.404       |      8443.209       |      5250.481       |      1824.014       |
+| 🛑 Array parallel stream                    |       5329.719       |      9990.888       |      5473.166       |      1949.132       |
+| 🛑 ArrayList parallel stream                |       5371.340       |      9988.989       |      5405.053       |      1964.288       |
+| 🛑 LinkedList parallel stream               |       6363.552       |      11210.383      |      5628.638       |      2531.034       |
+
+| Iteration through a loop of size 100 ≈ ns/op | Oracle JDK 1.8.0.231 | Liberica JDK 11.0.5 | Liberica JDK 17.0.1 | Liberica JDK 21.0.1 |
+|:---------------------------------------------|:--------------------:|:-------------------:|:-------------------:|:-------------------:|
+| 🏆 Array for-each                            |       516.859        |       553.480       |       485.568       |       183.436       |
+| 🏆 ArrayList stream                          |       452.580        |       532.421       |       474.444       |       212.984       |
+| ArrayList while                              |       509.745        |       513.783       |       538.366       |       224.564       |
+| 🥈 ArrayList for-each                        |       610.563        |       592.748       |       610.599       |       231.363       |
+| Array for                                    |       543.807        |       579.586       |       532.068       |       243.417       |
+| ArrayList for                                |       559.035        |       708.656       |       626.035       |       267.720       |
+| 🏆 LinkedList for-each                       |       599.448        |       548.610       |       599.340       |       291.188       |
+| Array while                                  |       512.912        |       633.659       |       518.899       |       318.209       |
+| ArrayList while iterator                     |       590.114        |       710.616       |       643.407       |       320.729       |
+| LinkedList stream                            |       471.328        |       551.397       |       469.124       |       323.844       |
+| Array stream                                 |       476.056        |       507.517       |       570.952       |       350.470       |
+| HashMap for                                  |       852.293        |       882.011       |       824.253       |       482.196       |
+| 🏆 HashMap for-each                          |       787.167        |       795.503       |      1130.958       |       484.472       |
+| 🏆 HashSet for-each                          |       761.753        |       743.816       |      1148.064       |       571.999       |
+| HashMap while                                |       756.500        |       802.248       |       782.878       |       572.459       |
+| LinkedList while iterator                    |       611.938        |       872.256       |       819.242       |       606.910       |
+| HashSet stream                               |       939.203        |      1095.776       |       990.460       |       620.594       |
+| HashMap stream                               |       957.775        |      1229.719       |       961.828       |       739.175       |
+| 🛑 HashSet while iterator                    |       914.617        |      1324.457       |      1321.125       |      1055.755       |
+| 🛑 HashMap while iterator                    |       942.919        |      1463.483       |      1316.566       |      1131.224       |
+| 🛑 LinkedList for                            |       1845.988       |      1965.593       |      1930.576       |      1374.561       |
+| 🛑 LinkedList while                          |       1762.227       |      1877.147       |      1917.377       |      1393.189       |
+| 🛑 ArrayList parallel stream                 |       5298.625       |      14215.759      |      6253.672       |      3946.954       |
+| 🛑 Array parallel stream                     |       4670.631       |      14242.178      |      6195.342       |      3952.021       |
+| 🛑 HashSet parallel stream                   |       6149.751       |      13407.520      |      6849.802       |      4174.964       |
+| 🛑 HashMap parallel stream                   |       8437.223       |      13533.003      |      7546.829       |      4212.106       |
+| 🛑 LinkedList parallel stream                |       7311.149       |      13573.413      |      6638.516       |      4477.108       |
+
+| Iteration through a loop of size 1000 ≈ ns/op | Oracle JDK 1.8.0.231 | Liberica JDK 11.0.5 | Liberica JDK 17.0.1 | Liberica JDK 21.0.1 |
+|:----------------------------------------------|:--------------------:|:-------------------:|:-------------------:|:-------------------:|
+| 🏆 ArrayList for-each                         |       5367.434       |      6245.217       |      5711.255       |      2137.671       |
+| Array for                                     |       4541.965       |      5801.407       |      6023.896       |      2170.499       |
+| 🏆 Array stream                               |       4836.294       |      4603.617       |      5505.758       |      2174.740       |
+| 🥈 ArrayList stream                           |       4304.753       |      6054.121       |      5992.598       |      2281.851       |
+| ArrayList for                                 |       5711.178       |      6934.258       |      6592.561       |      2409.123       |
+| Array while                                   |       4835.093       |      5280.361       |      5045.783       |      2898.700       |
+| 🏆 LinkedList for-each                        |       5918.310       |      6000.391       |      7914.284       |      2957.095       |
+| ArrayList while iterator                      |       5885.844       |      6958.425       |      6530.116       |      3069.838       |
+| Array for-each                                |       5043.941       |      5028.306       |      5702.426       |      3103.731       |
+| LinkedList stream                             |       4796.906       |      5990.053       |      5313.719       |      3207.707       |
+| ArrayList while                               |       5081.582       |      5551.269       |      5727.451       |      3553.110       |
+| 🏆 HashSet stream                             |      15818.360       |      16047.582      |      15238.307      |      5309.713       |
+| ArrayList parallel stream                     |      22495.224       |      24210.603      |      20585.628      |      5324.364       |
+| HashMap while                                 |       8286.079       |      9229.163       |      8121.580       |      5387.518       |
+| 🏆 HashMap for-each                           |       8847.979       |      7781.086       |      10762.534      |      5445.402       |
+| HashMap stream                                |       8606.974       |      8913.807       |      10566.605      |      5522.041       |
+| 🛑 Array parallel stream                      |      20611.923       |      24662.142      |      21002.222      |      5555.114       |
+| 🛑 LinkedList while iterator                  |       6601.877       |      8420.395       |      7441.360       |      5790.043       |
+| 🛑 HashMap for                                |       8688.909       |      9982.192       |      8515.508       |      6304.391       |
+| 🛑 HashSet for-each                           |       6824.631       |      15981.403      |      14601.845      |      8447.282       |
+| 🛑 HashSet while iterator                     |       7763.406       |      16408.484      |      15049.812      |      8655.897       |
+| 🛑 HashSet parallel stream                    |      24917.027       |      27777.871      |      26755.934      |      9381.722       |
+| 🛑 HashMap while iterator                     |       7940.917       |      12727.065      |      12052.856      |      9895.865       |
+| 🛑 HashMap parallel stream                    |      28978.392       |      28267.920      |      27925.295      |      10115.399      |
+| 🛑 LinkedList parallel stream                 |      26361.520       |      27526.746      |      24888.407      |      16433.331      |
+| 🛑 LinkedList for                             |      283295.869      |     231836.316      |     228652.514      |     221457.317      |
+| 🛑 LinkedList while                           |      291284.300      |     232290.331      |     228899.586      |     222476.555      |
+
+| Iteration through a loop of size 10000 ≈ ns/op | Liberica JDK 17.0.1 | Liberica JDK 21.0.1 |
+|------------------------------------------------|---------------------|---------------------|
+| 🏆 Array while                                 | 54664.499           | 22342.672           |
+| Array for                                      | 60679.335           | 23413.753           |
+| 🏆 ArrayList stream                            | 55824.065           | 23954.889           |
+| ArrayList while                                | 53715.753           | 24261.134           |
+| 🥈 Array for-each                              | 52677.594           | 24466.739           |
+| 🥈 ArrayList for-each                          | 58105.518           | 24603.598           |
+| ArrayList while iterator                       | 65788.230           | 26993.148           |
+| Array for                                      | 58051.600           | 28338.000           |
+| Array stream                                   | 54460.128           | 29123.269           |
+| Array parallel stream                          | 144901.963          | 34780.239           |
+| 🏆 LinkedList stream                           | 59384.735           | 35150.872           |
+| 🥈 LinkedList for-each                         | 87337.259           | 35720.881           |
+| ArrayList parallel stream                      | 162634.398          | 36069.678           |
+| 🏆 HashMap for-each                            | 98246.109           | 52787.407           |
+| 🥈 HashMap stream                              | 84355.265           | 52881.223           |
+| LinkedList while iterator                      | 75406.493           | 58120.565           |
+| HashMap parallel stream                        | 217173.063          | 64616.891           |
+| HashMap while                                  | 87906.060           | 65040.647           |
+| HashMap for                                    | 94566.753           | 72766.162           |
+| 🏆 HashSet parallel stream                     | 264477.717          | 84097.014           |
+| HashMap while iterator                         | 111797.313          | 90487.422           |
+| LinkedList parallel stream                     | 196098.381          | 107466.241          |
+| 🥈 HashSet stream                              | 184003.232          | 140850.208          |
+| HashSet while iterator                         | 228361.840          | 185915.457          |
+| HashSet for-each                               | 223900.536          | 188980.428          |
+| LinkedList while                               | 41399089.356        | 41361742.937        |
+| LinkedList for                                 | 41131708.064        | 43125345.962        |
 
 ### Liberica JDK 21.0.1
 
