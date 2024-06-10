@@ -15,6 +15,7 @@
         <module>log4j2</module>
         <module>logback</module>
         <module>string</module>
+        <module>random-integer</module>
     </modules>
 
     <properties>
