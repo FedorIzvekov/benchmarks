@@ -21,6 +21,7 @@ public class RandomBenchmark {
                 .build();
 
         new Runner(options).run();
+        new AnalysisLuck().runAnalyze();
     }
 
 }
