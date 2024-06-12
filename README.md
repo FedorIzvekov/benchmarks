@@ -15,3 +15,4 @@ java -jar ./target/<module_name>-1.0.0-SNAPSHOT.jar
 ### [String Concatenation Benchmark](benchmark-results/StringConcatenation.md#string-concatenation-benchmark)
 ### [Log4j2 Logging Benchmark](benchmark-results/Log4j2Logging.md#log4j2-logging-benchmark)
 ### [Logback Logging Benchmark](benchmark-results/LogbackLogging.md#logback-logging-benchmark)
+### [Random Integer Generators Benchmark](benchmark-results/RandomInteger.md#random-integer-generators-benchmark)
