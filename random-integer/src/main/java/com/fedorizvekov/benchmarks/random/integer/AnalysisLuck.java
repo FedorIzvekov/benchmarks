@@ -1,91 +1,116 @@
 package com.fedorizvekov.benchmarks.random.integer;
 
+import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.MATH_RANDOM;
+import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.RANDOM;
+import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.SECURE_RANDOM;
+import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.SPLITTABLE_RANDOM;
+import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.THREAD_LOCAL_RANDOM;
+
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.SplittableRandom;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Consumer;
+import com.fedorizvekov.benchmarks.random.integer.model.LuckyResult;
+import com.fedorizvekov.benchmarks.random.integer.model.RandomResult;
+import com.fedorizvekov.benchmarks.random.integer.model.RandomType;
 
 public class AnalysisLuck {
 
-    private final Map<String, Consumer<Integer>> methods = Map.of(
-            "Random", this::random,
-            "SplittableRandom", this::splittableRandom,
-            "ThreadLocalRandom", this::threadLocalRandom,
-            "SecureRandom", this::secureRandom
-    );
-
-    private final int rangeMin = 1;
-    private final int[] maxRanges = {10, 100, 1000, 10000};
-    private final int numberOfChecks = 1_000_000;
-    private final int luckyNumber = 1;
-
-    private final Random random = new Random(); // pseudo-random
-    private final SplittableRandom splittableRandom = new SplittableRandom(); // pseudo-random
-    private final ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current(); // pseudo-random
-    private final SecureRandom secureRandom = new SecureRandom();  // cryptographically strong pseudo-random
-
-    private int totalCounter;
-    private int luckyCounter;
+    private final Map<RandomType, RandomFunctional> functions = new EnumMap<>(RandomType.class);
+    private final List<RandomResult> results = new ArrayList<>();
+    private int rangeMin = 1;
+    private int[] maxRanges = {10, 100, 1000, 10000};
+    private int numberOfChecks = 10_000_000;
 
 
-    public void runAnalyze() {
+    AnalysisLuck(int rangeMin, int[] maxRanges, int numberOfChecks) {
+        this();
+        this.rangeMin = rangeMin;
+        this.maxRanges = maxRanges;
+        this.numberOfChecks = numberOfChecks;
+    }
+
+
+    public AnalysisLuck() {
+        functions.put(RANDOM, (min, max) -> new Random().nextInt(min, max + 1));
+        functions.put(SPLITTABLE_RANDOM, (min, max) -> new SplittableRandom().nextInt(min, max + 1));
+        functions.put(THREAD_LOCAL_RANDOM, (min, max) -> ThreadLocalRandom.current().nextInt(min, max + 1));
+        functions.put(SECURE_RANDOM, (min, max) -> new SecureRandom().nextInt(min, max + 1));
+        functions.put(MATH_RANDOM, (min, max) -> min + (int) (Math.random() * (max + 1 - min)));
+    }
+
+
+    public List<RandomResult> runAnalyze() {
 
         for (var rangeMax : maxRanges) {
+            var rangeMid = rangeMax / 2;
 
-            for (Map.Entry<String, Consumer<Integer>> method : methods.entrySet()) {
+            for (Map.Entry<RandomType, RandomFunctional> functionEntry : functions.entrySet()) {
 
-                totalCounter = 0;
-                luckyCounter = 0;
+                int totalCounter = 0;
+
+                var luckyCounters = new HashMap<Integer, Integer>() {{
+                    put(rangeMin, 0);
+                    put(rangeMid, 0);
+                    put(rangeMax, 0);
+                }};
 
                 for (var check = 0; check < numberOfChecks; check++) {
 
-                    method.getValue().accept(rangeMax);
+                    var number = functionEntry.getValue().generate(rangeMin, rangeMax);
+
+                    luckyCounters.computeIfPresent(number, (key, count) -> count + 1);
+
+                    totalCounter++;
 
                 }
 
-                System.out.println(
-                        method.getKey() + " (range " + rangeMin + " - " + rangeMax +
-                                "): Total random numbers = " + totalCounter +
-                                ", Lucky random numbers = " + luckyCounter +
-                                ", % success = " + ((double) luckyCounter / totalCounter) * 100
-                );
+                var result = RandomResult.builder()
+                        .randomType(functionEntry.getKey())
+                        .rangeMin(rangeMin)
+                        .rangeMax(rangeMax)
+                        .totalCounter(totalCounter)
+                        .addLuckyResult(
+                                LuckyResult.builder()
+                                        .totalCounter(totalCounter)
+                                        .luckyNumber(rangeMin)
+                                        .luckyCounter(luckyCounters.get(rangeMin))
+                                        .build()
+                        )
+                        .addLuckyResult(
+                                LuckyResult.builder()
+                                        .totalCounter(totalCounter)
+                                        .luckyNumber(rangeMid)
+                                        .luckyCounter(luckyCounters.get(rangeMid))
+                                        .build()
+                        )
+                        .addLuckyResult(
+                                LuckyResult.builder()
+                                        .totalCounter(totalCounter)
+                                        .luckyNumber(rangeMax)
+                                        .luckyCounter(luckyCounters.get(rangeMax))
+                                        .build()
+                        )
+                        .build();
+
+                results.add(result);
+
 
             }
         }
+
+        return results;
     }
 
 
-    private void random(int rangeMax) {
-        var number = rangeMin + random.nextInt(rangeMax - rangeMin);
-        analyzeLuck(number);
-    }
-
-
-    private void splittableRandom(int rangeMax) {
-        var number = rangeMin + splittableRandom.nextInt(rangeMax - rangeMin);
-        analyzeLuck(number);
-    }
-
-
-    private void threadLocalRandom(int rangeMax) {
-        var number = rangeMin + threadLocalRandom.nextInt(rangeMax - rangeMin);
-        analyzeLuck(number);
-    }
-
-
-    private void secureRandom(int rangeMax) {
-        var number = rangeMin + secureRandom.nextInt(rangeMax - rangeMin);
-        analyzeLuck(number);
-    }
-
-
-    private void analyzeLuck(int number) {
-        if (number == luckyNumber) {
-            luckyCounter++;
-        }
-        totalCounter++;
+    @FunctionalInterface
+    interface RandomFunctional {
+        int generate(int min, int max);
     }
 
 }

@@ -24,28 +24,35 @@ public class JdkRandom {
 
     @Benchmark
     public void random(Data data, Blackhole blackhole) {
-        var number = data.rangeMin + data.random.nextInt(data.rangeMax - data.rangeMin);
+        var number = data.random.nextInt(data.rangeMin, data.rangeMax + 1);
         blackhole.consume(number);
     }
 
 
     @Benchmark
     public void splittableRandom(Data data, Blackhole blackhole) {
-        var number = data.rangeMin + data.splittableRandom.nextInt(data.rangeMax - data.rangeMin);
+        var number = data.splittableRandom.nextInt(data.rangeMin, data.rangeMax + 1);
         blackhole.consume(number);
     }
 
 
     @Benchmark
     public void threadLocalRandom(Data data, Blackhole blackhole) {
-        var number = data.rangeMin + data.threadLocalRandom.nextInt(data.rangeMax - data.rangeMin);
+        var number = data.threadLocalRandom.nextInt(data.rangeMin, data.rangeMax + 1);
         blackhole.consume(number);
     }
 
 
     @Benchmark
     public void secureRandom(Data data, Blackhole blackhole) {
-        var number = data.rangeMin + data.secureRandom.nextInt(data.rangeMax - data.rangeMin);
+        var number = data.secureRandom.nextInt(data.rangeMin, data.rangeMax + 1);
+        blackhole.consume(number);
+    }
+
+
+    @Benchmark
+    public void mathRandom(Data data, Blackhole blackhole) {
+        var number = data.rangeMin + (int) (Math.random() * ((data.rangeMax + 1) - data.rangeMin));
         blackhole.consume(number);
     }
 
