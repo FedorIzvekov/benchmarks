@@ -4,7 +4,11 @@ import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.MATH_R
 import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.RANDOM;
 import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.SECURE_RANDOM;
 import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.SPLITTABLE_RANDOM;
+import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.SPLIT_MIX_64_RANDOM;
 import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.THREAD_LOCAL_RANDOM;
+import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.XO_RO_SHI_RO_128_PLUS_PLUS_RANDOM;
+import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.XO_RO_SHI_RO_128_PLUS_RANDOM;
+import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.XO_RO_SHI_RO_128_STAR_STAR_RANDOM;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -18,6 +22,10 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.fedorizvekov.benchmarks.random.integer.model.LuckyResult;
 import com.fedorizvekov.benchmarks.random.integer.model.RandomResult;
 import com.fedorizvekov.benchmarks.random.integer.model.RandomType;
+import it.unimi.dsi.util.SplitMix64Random;
+import it.unimi.dsi.util.XoRoShiRo128PlusPlusRandom;
+import it.unimi.dsi.util.XoRoShiRo128PlusRandom;
+import it.unimi.dsi.util.XoRoShiRo128StarStarRandom;
 
 public class AnalysisLuck {
 
@@ -42,6 +50,10 @@ public class AnalysisLuck {
         functions.put(THREAD_LOCAL_RANDOM, (min, max) -> ThreadLocalRandom.current().nextInt(min, max + 1));
         functions.put(SECURE_RANDOM, (min, max) -> new SecureRandom().nextInt(min, max + 1));
         functions.put(MATH_RANDOM, (min, max) -> min + (int) (Math.random() * (max + 1 - min)));
+        functions.put(SPLIT_MIX_64_RANDOM, (min, max) -> new SplitMix64Random().nextInt(min, max + 1));
+        functions.put(XO_RO_SHI_RO_128_PLUS_RANDOM, (min, max) -> new XoRoShiRo128PlusRandom().nextInt(min, max + 1));
+        functions.put(XO_RO_SHI_RO_128_PLUS_PLUS_RANDOM, (min, max) -> new XoRoShiRo128PlusPlusRandom().nextInt(min, max + 1));
+        functions.put(XO_RO_SHI_RO_128_STAR_STAR_RANDOM, (min, max) -> new XoRoShiRo128StarStarRandom().nextInt(min, max + 1));
     }
 
 

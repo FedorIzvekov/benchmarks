@@ -11,6 +11,7 @@ public class RandomBenchmark {
 
         var options = new OptionsBuilder()
                 .include(JdkRandom.class.getSimpleName())
+                .include(XoRoShiRoRandom.class.getSimpleName())
                 .warmupIterations(10)
                 .warmupTime(TimeValue.seconds(1))
                 .measurementIterations(10)
