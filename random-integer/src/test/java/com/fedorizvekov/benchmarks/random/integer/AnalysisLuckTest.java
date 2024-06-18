@@ -1,14 +1,6 @@
 package com.fedorizvekov.benchmarks.random.integer;
 
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.MATH_RANDOM;
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.RANDOM;
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.SECURE_RANDOM;
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.SPLITTABLE_RANDOM;
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.SPLIT_MIX_64_RANDOM;
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.THREAD_LOCAL_RANDOM;
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.XO_RO_SHI_RO_128_PLUS_PLUS_RANDOM;
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.XO_RO_SHI_RO_128_PLUS_RANDOM;
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.XO_RO_SHI_RO_128_STAR_STAR_RANDOM;
+import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fedorizvekov.benchmarks.random.integer.model.RandomType;
@@ -34,7 +26,8 @@ class AnalysisLuckTest {
                 .extracting("randomType")
                 .containsExactlyInAnyOrder(
                         RANDOM, SECURE_RANDOM, THREAD_LOCAL_RANDOM, SPLITTABLE_RANDOM, MATH_RANDOM,
-                        SPLIT_MIX_64_RANDOM, XO_RO_SHI_RO_128_PLUS_RANDOM, XO_RO_SHI_RO_128_PLUS_PLUS_RANDOM, XO_RO_SHI_RO_128_STAR_STAR_RANDOM
+                        SPLIT_MIX_64_RANDOM, XO_RO_SHI_RO_128_PLUS_RANDOM, XO_RO_SHI_RO_128_PLUS_PLUS_RANDOM, XO_RO_SHI_RO_128_STAR_STAR_RANDOM,
+                        MATH3_WELL_512_A, MATH3_MERSENNE_TWISTER, MATH3_ISAAC_RANDOM
                 );
 
         assertThat(result)

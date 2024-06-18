@@ -1,14 +1,6 @@
 package com.fedorizvekov.benchmarks.random.integer;
 
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.MATH_RANDOM;
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.RANDOM;
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.SECURE_RANDOM;
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.SPLITTABLE_RANDOM;
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.SPLIT_MIX_64_RANDOM;
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.THREAD_LOCAL_RANDOM;
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.XO_RO_SHI_RO_128_PLUS_PLUS_RANDOM;
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.XO_RO_SHI_RO_128_PLUS_RANDOM;
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.XO_RO_SHI_RO_128_STAR_STAR_RANDOM;
+import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.*;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -26,6 +18,9 @@ import it.unimi.dsi.util.SplitMix64Random;
 import it.unimi.dsi.util.XoRoShiRo128PlusPlusRandom;
 import it.unimi.dsi.util.XoRoShiRo128PlusRandom;
 import it.unimi.dsi.util.XoRoShiRo128StarStarRandom;
+import org.apache.commons.math3.random.ISAACRandom;
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.Well512a;
 
 public class AnalysisLuck {
 
@@ -54,6 +49,9 @@ public class AnalysisLuck {
         functions.put(XO_RO_SHI_RO_128_PLUS_RANDOM, (min, max) -> new XoRoShiRo128PlusRandom().nextInt(min, max + 1));
         functions.put(XO_RO_SHI_RO_128_PLUS_PLUS_RANDOM, (min, max) -> new XoRoShiRo128PlusPlusRandom().nextInt(min, max + 1));
         functions.put(XO_RO_SHI_RO_128_STAR_STAR_RANDOM, (min, max) -> new XoRoShiRo128StarStarRandom().nextInt(min, max + 1));
+        functions.put(MATH3_WELL_512_A, (min, max) -> min + new Well512a().nextInt(max + 1 - min));
+        functions.put(MATH3_MERSENNE_TWISTER, (min, max) -> min + new MersenneTwister().nextInt(max + 1 - min));
+        functions.put(MATH3_ISAAC_RANDOM, (min, max) -> min + new ISAACRandom().nextInt(max + 1 - min));
     }
 
 
