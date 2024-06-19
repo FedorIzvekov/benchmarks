@@ -17,15 +17,23 @@ public class RandomResult {
 
     @Override
     public String toString() {
+
+        var luckCounter = luckyResults.stream().mapToInt(LuckyResult::luckyCounter).sum();
+
         return randomType.name() +
-                " (range " +
+                ", rangeMin = " +
                 rangeMin +
-                " - " +
+                ", rangeMax = " +
                 rangeMax +
-                "): totalCounter = " +
+                ", totalCounter = " +
                 totalCounter +
-                ", luckyResults = " +
-                luckyResults.toString();
+                ", luckCounter = " +
+                luckCounter +
+                ", percentSuccess = " +
+                ((double) luckCounter / totalCounter) * 100 +
+                ", distributionOfCoincidences = " +
+                luckyResults;
+
     }
 
 }

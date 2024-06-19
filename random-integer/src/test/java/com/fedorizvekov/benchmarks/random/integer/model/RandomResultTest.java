@@ -11,32 +11,33 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class RandomResultTest {
 
+
     @DisplayName("Should return string with valid RandomType")
     @CsvSource({
-            "SPLITTABLE_RANDOM, ' (range 1 - 5): totalCounter = 1, luckyResults = [luckyNumber 111, luckyCounter = 1, success = 100.0 %, luckyNumber 777, luckyCounter = 0, success = 0.0 %]'",
-            "THREAD_LOCAL_RANDOM, ' (range 1 - 5): totalCounter = 1, luckyResults = [luckyNumber 111, luckyCounter = 1, success = 100.0 %, luckyNumber 777, luckyCounter = 0, success = 0.0 %]'",
+            "RANDOM, 0, 0, ', rangeMin = 1, rangeMax = 5, totalCounter = 9, luckCounter = 0, percentSuccess = 0.0, distributionOfCoincidences = [1 - 0, 2 - 0, 5 - 0]'",
+            "SPLITTABLE_RANDOM, 1, 2, ', rangeMin = 1, rangeMax = 5, totalCounter = 9, luckCounter = 3, percentSuccess = 33.33333333333333, distributionOfCoincidences = [1 - 1, 2 - 2, 5 - 0]'",
+            "THREAD_LOCAL_RANDOM, 5, 4, ', rangeMin = 1, rangeMax = 5, totalCounter = 9, luckCounter = 9, percentSuccess = 100.0, distributionOfCoincidences = [1 - 5, 2 - 4, 5 - 0]'"
     })
     @ParameterizedTest
-    void ShouldReturnString_withValidRandomType(RandomType randomType, String expectedString) {
+    void ShouldReturnString_withValidRandomType(RandomType randomType, int firstCounter, int secondCounter, String expectedString) {
+
+        int rangeMin = 1;
+        int rangeMax = 5;
+        int totalCounter = 9;
 
         var result = RandomResult.builder()
                 .randomType(randomType)
-                .rangeMin(1)
-                .rangeMax(5)
-                .totalCounter(1)
+                .rangeMin(rangeMin)
+                .rangeMax(rangeMax)
+                .totalCounter(totalCounter)
                 .addLuckyResult(
-                        LuckyResult.builder()
-                                .luckyNumber(111)
-                                .totalCounter(1)
-                                .luckyCounter(1)
-                                .build()
+                        LuckyResult.builder().luckyNumber(rangeMin).luckyCounter(firstCounter).build()
                 )
                 .addLuckyResult(
-                        LuckyResult.builder()
-                                .luckyNumber(777)
-                                .totalCounter(1)
-                                .luckyCounter(0)
-                                .build()
+                        LuckyResult.builder().luckyNumber(rangeMax /2).luckyCounter(secondCounter).build()
+                )
+                .addLuckyResult(
+                        LuckyResult.builder().luckyNumber(rangeMax).luckyCounter(0).build()
                 )
                 .build()
                 .toString();

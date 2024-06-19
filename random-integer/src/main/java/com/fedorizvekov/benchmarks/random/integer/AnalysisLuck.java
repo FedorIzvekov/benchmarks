@@ -1,78 +1,36 @@
 package com.fedorizvekov.benchmarks.random.integer;
 
-import static com.fedorizvekov.benchmarks.random.integer.model.RandomType.*;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
-import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.SplittableRandom;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
 import com.fedorizvekov.benchmarks.random.integer.model.LuckyResult;
 import com.fedorizvekov.benchmarks.random.integer.model.RandomResult;
 import com.fedorizvekov.benchmarks.random.integer.model.RandomType;
-import it.unimi.dsi.util.SplitMix64Random;
-import it.unimi.dsi.util.XoRoShiRo128PlusPlusRandom;
-import it.unimi.dsi.util.XoRoShiRo128PlusRandom;
-import it.unimi.dsi.util.XoRoShiRo128StarStarRandom;
-import org.apache.commons.math3.random.ISAACRandom;
-import org.apache.commons.math3.random.MersenneTwister;
-import org.apache.commons.math3.random.Well512a;
 
 public class AnalysisLuck {
 
-    private final Map<RandomType, RandomFunctional> functions = new EnumMap<>(RandomType.class);
     private final List<RandomResult> results = new ArrayList<>();
-    private int rangeMin = 1;
-    private int[] maxRanges = {10, 100, 1000, 10000};
-    private int numberOfChecks = 10_000_000;
-
-
-    AnalysisLuck(int rangeMin, int[] maxRanges, int numberOfChecks) {
-        this();
-        this.rangeMin = rangeMin;
-        this.maxRanges = maxRanges;
-        this.numberOfChecks = numberOfChecks;
-    }
-
-
-    public AnalysisLuck() {
-        functions.put(RANDOM, (min, max) -> new Random().nextInt(min, max + 1));
-        functions.put(SPLITTABLE_RANDOM, (min, max) -> new SplittableRandom().nextInt(min, max + 1));
-        functions.put(THREAD_LOCAL_RANDOM, (min, max) -> ThreadLocalRandom.current().nextInt(min, max + 1));
-        functions.put(SECURE_RANDOM, (min, max) -> new SecureRandom().nextInt(min, max + 1));
-        functions.put(MATH_RANDOM, (min, max) -> min + (int) (Math.random() * (max + 1 - min)));
-        functions.put(SPLIT_MIX_64_RANDOM, (min, max) -> new SplitMix64Random().nextInt(min, max + 1));
-        functions.put(XO_RO_SHI_RO_128_PLUS_RANDOM, (min, max) -> new XoRoShiRo128PlusRandom().nextInt(min, max + 1));
-        functions.put(XO_RO_SHI_RO_128_PLUS_PLUS_RANDOM, (min, max) -> new XoRoShiRo128PlusPlusRandom().nextInt(min, max + 1));
-        functions.put(XO_RO_SHI_RO_128_STAR_STAR_RANDOM, (min, max) -> new XoRoShiRo128StarStarRandom().nextInt(min, max + 1));
-        functions.put(MATH3_WELL_512_A, (min, max) -> min + new Well512a().nextInt(max + 1 - min));
-        functions.put(MATH3_MERSENNE_TWISTER, (min, max) -> min + new MersenneTwister().nextInt(max + 1 - min));
-        functions.put(MATH3_ISAAC_RANDOM, (min, max) -> min + new ISAACRandom().nextInt(max + 1 - min));
-    }
+    int rangeMin = 1;
+    int[] maxRanges = {10, 100, 1000, 10000};
+    int numberOfChecks = 10_000_000;
 
 
     public List<RandomResult> runAnalyze() {
 
-        for (var rangeMax : maxRanges) {
-            var rangeMid = rangeMax / 2;
+        for (RandomType randomType : RandomType.values()) {
 
-            for (Map.Entry<RandomType, RandomFunctional> functionEntry : functions.entrySet()) {
+            for (var rangeMax : maxRanges) {
 
-                int totalCounter = 0;
+                var totalCounter = 0;
+                var luckyCounters = initializeLuckyCounters(rangeMin, rangeMax);
 
-                var luckyCounters = new HashMap<Integer, Integer>() {{
-                    put(rangeMin, 0);
-                    put(rangeMid, 0);
-                    put(rangeMax, 0);
-                }};
+                while (totalCounter < numberOfChecks) {
 
-                for (var check = 0; check < numberOfChecks; check++) {
-
-                    var number = functionEntry.getValue().generate(rangeMin, rangeMax);
+                    var number = randomType.generate(rangeMin, rangeMax);
 
                     luckyCounters.computeIfPresent(number, (key, count) -> count + 1);
 
@@ -80,36 +38,15 @@ public class AnalysisLuck {
 
                 }
 
-                var result = RandomResult.builder()
-                        .randomType(functionEntry.getKey())
-                        .rangeMin(rangeMin)
-                        .rangeMax(rangeMax)
-                        .totalCounter(totalCounter)
-                        .addLuckyResult(
-                                LuckyResult.builder()
-                                        .totalCounter(totalCounter)
-                                        .luckyNumber(rangeMin)
-                                        .luckyCounter(luckyCounters.get(rangeMin))
-                                        .build()
-                        )
-                        .addLuckyResult(
-                                LuckyResult.builder()
-                                        .totalCounter(totalCounter)
-                                        .luckyNumber(rangeMid)
-                                        .luckyCounter(luckyCounters.get(rangeMid))
-                                        .build()
-                        )
-                        .addLuckyResult(
-                                LuckyResult.builder()
-                                        .totalCounter(totalCounter)
-                                        .luckyNumber(rangeMax)
-                                        .luckyCounter(luckyCounters.get(rangeMax))
-                                        .build()
-                        )
-                        .build();
-
-                results.add(result);
-
+                results.add(
+                        RandomResult.builder()
+                                .randomType(randomType)
+                                .rangeMin(rangeMin)
+                                .rangeMax(rangeMax)
+                                .totalCounter(numberOfChecks)
+                                .luckyResults(createLuckyResults(luckyCounters))
+                                .build()
+                );
 
             }
         }
@@ -118,9 +55,26 @@ public class AnalysisLuck {
     }
 
 
-    @FunctionalInterface
-    interface RandomFunctional {
-        int generate(int min, int max);
+    private Map<Integer, Integer> initializeLuckyCounters(int rangeMin, int rangeMax) {
+
+        var step = (rangeMax - rangeMin) / 9;
+
+        return IntStream.range(0, 10)
+                .mapToObj(i -> rangeMin + i * step)
+                .collect(toMap(luckyNumber -> luckyNumber, luckyCounter -> 0));
+    }
+
+
+    private List<LuckyResult> createLuckyResults(Map<Integer, Integer> luckyCounters) {
+        return luckyCounters.keySet().stream()
+                .sorted()
+                .map(luckyNumber -> LuckyResult.builder()
+                        .luckyNumber(luckyNumber)
+                        .luckyCounter(luckyCounters.get(luckyNumber))
+                        .build()
+                )
+                .collect(toList());
+
     }
 
 }
